@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,23 +19,29 @@ import javax.swing.table.DefaultTableModel;
 class JInsert extends JPanel implements ActionListener{
 	JTextField name;
 	JTextField birth;
-	JTextField gender; // 추가
-	JTextField marry; // 추가
+	JComboBox gender; // 추가
+	JComboBox marry; // 추가
 	DAO dao = new DAO();
 	DTO dto = new DTO();
 	public JInsert() {
 		JLabel label1 = new JLabel("이름");
 		JLabel label2 = new JLabel("생년월일");
 		JLabel label3 = new JLabel("성별");
+		JComboBox<String> jcb1 = new JComboBox<String>();
+		jcb1.addItem("남자");		
+		jcb1.addItem("여자");
 		JLabel label4 = new JLabel("결혼유무");
+		JComboBox<String> jcb2 = new JComboBox<String>();
+		jcb2.addItem("기혼");		
+		jcb2.addItem("미혼");
 		JButton jb = new JButton("등록");	
 		name = new JTextField(4);
 		birth = new JTextField(6);
-		gender = new JTextField(2); // 추가
-		marry = new JTextField(2); // 추가
-				
+		gender = new JComboBox();
+		marry = new JComboBox();
+						
 		add(label1);add(name);add(label2);add(birth);
-		add(label3);add(gender);add(label4);add(marry);add(jb);
+		add(label3);add(jcb1);add(label4);add(jcb2);add(jb);
 				
 		jb.addActionListener(this);
 	}
@@ -42,13 +49,13 @@ class JInsert extends JPanel implements ActionListener{
 		
 		dto.setName(name.getText());
 		dto.setBirth(birth.getText());
-		dto.setGender(gender.getText()); // 추가
-		dto.setMarry(marry.getText()); // 추가
+		dto.setGender((String)gender.getSelectedItem()); // 수정 필요..?
+		dto.setMarry((String)marry.getSelectedItem()); // 수정 필요..?
 		dao.insert(dto);
 		name.setText("");
 		birth.setText("");
-		gender.setText(""); // 추가
-		marry.setText(""); // 추가
+		gender.setToolTipText(""); // 수정 필요..?
+		marry.setToolTipText(""); // 수정 필요..?
 	}
 }
 class JSelect extends JPanel implements ActionListener{
