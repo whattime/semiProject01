@@ -18,17 +18,23 @@ import javax.swing.table.DefaultTableModel;
 class JInsert extends JPanel implements ActionListener{
 	JTextField name;
 	JTextField birth;
+	JTextField gender; // 추가
+	JTextField marry; // 추가
 	DAO dao = new DAO();
 	DTO dto = new DTO();
 	public JInsert() {
 		JLabel label1 = new JLabel("이름");
 		JLabel label2 = new JLabel("생년월일");
+		JLabel label3 = new JLabel("성별");
+		JLabel label4 = new JLabel("결혼유무");
 		JButton jb = new JButton("등록");	
 		name = new JTextField(4);
 		birth = new JTextField(6);
-		
-		
-		add(label1); add(name);add(label2);add(birth); add(jb);
+		gender = new JTextField(2); // 추가
+		marry = new JTextField(2); // 추가
+				
+		add(label1);add(name);add(label2);add(birth);
+		add(label3);add(gender);add(label4);add(marry);add(jb);
 				
 		jb.addActionListener(this);
 	}
@@ -36,9 +42,13 @@ class JInsert extends JPanel implements ActionListener{
 		
 		dto.setName(name.getText());
 		dto.setBirth(birth.getText());
+		dto.setGender(gender.getText()); // 추가
+		dto.setMarry(marry.getText()); // 추가
 		dao.insert(dto);
 		name.setText("");
 		birth.setText("");
+		gender.setText(""); // 추가
+		marry.setText(""); // 추가
 	}
 }
 class JSelect extends JPanel implements ActionListener{
@@ -51,7 +61,7 @@ class JSelect extends JPanel implements ActionListener{
 		jtf = new JTextField(4);
 		JButton jb = new JButton("조회");
 		
-		String[] head = {"이름", "생년월일", "등록일"};
+		String[] head = {"이름", "생년월일", "성별", "결혼유무", "등록일"}; // 수정
 		dfm = new DefaultTableModel(null, head );
 		JTable jt = new JTable(dfm);
 		JScrollPane jsp = new JScrollPane(jt);	
@@ -59,7 +69,7 @@ class JSelect extends JPanel implements ActionListener{
 		
 		add(jl);add(jtf);add(jb);add(jsp);
 		jb.addActionListener(this);
-	}
+			}
 	public void actionPerformed(ActionEvent e) {
 		dao = new DAO();
 		int no = Integer.parseInt(jtf.getText());
@@ -68,7 +78,9 @@ class JSelect extends JPanel implements ActionListener{
 		dfm.setRowCount(1);
 		dfm.setValueAt(dto.getName(), 0, 0);
 		dfm.setValueAt(dto.getBirth(), 0, 1);
-		dfm.setValueAt(dto.getEnroll(), 0, 2);
+		dfm.setValueAt(dto.getGender(), 0, 2); // 추가
+		dfm.setValueAt(dto.getMarry(), 0, 3); // 추가
+		dfm.setValueAt(dto.getEnroll(), 0, 4); // 수정
 		
 	}
 }

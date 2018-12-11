@@ -2,6 +2,8 @@ create table member(
 						no				number(4) constraint member_no_pk primary key, 
 						name			varchar2(20) constraint member_name_nn not null, 
 						birth 			varchar2(20), 
+						gender		varchar2(20),
+						marry			varchar2(20),
 						enroll			Date default(sysdate) 
 					); 
 					

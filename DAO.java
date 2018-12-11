@@ -19,7 +19,7 @@ class DAO {
 	    ds.setPassword("tiger");
 	      
 	    ds.setInitialSize(5);
-	}	
+	}
 	
 	public DTO select(int no){
 		DTO dto = new DTO();
@@ -38,6 +38,8 @@ class DAO {
 				dto.setNo(rs.getInt("no"));
 				dto.setName(rs.getString("name"));
 				dto.setBirth(rs.getString("birth"));
+				dto.setGender(rs.getString("gender")); // 추가
+				dto.setMarry(rs.getString("marry")); // 추가
 				dto.setEnroll(rs.getString("enroll"));
 			}
 			
@@ -58,7 +60,7 @@ class DAO {
 	
 	public void insert(DTO dto) {
 		Connection con = null;
-		String sql = "insert into member(no,name, birth) values(member_seq.nextVal, ?, ?)";
+		String sql = "insert into member(no, name, birth, gender, marry) values(member_seq.nextVal, ?, ?, ?, ?)"; //
 		PreparedStatement pstmt  = null;
 		
 		try {
@@ -67,6 +69,8 @@ class DAO {
 			
 			pstmt.setString(1, dto.getName());
 			pstmt.setString(2, dto.getBirth());
+			pstmt.setString(3, dto.getGender()); // 추가
+			pstmt.setString(4, dto.getMarry()); // 추가
 			
 			
 			int result = pstmt.executeUpdate();
@@ -92,7 +96,7 @@ class DAO {
 	public void update(DTO dto) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String sql = "update member set name=?, birth=?, enroll=? where no=?";
+		String sql = "update member set name=?, birth=?, gender=?, marry=?, enroll=? where no=?";
 		
 		try {
 			con = ds.getConnection();
@@ -100,8 +104,10 @@ class DAO {
 			
 			pstmt.setString(1, dto.getName());
 			pstmt.setString(2, dto.getBirth());
-			pstmt.setString(3, dto.getEnroll());
-			pstmt.setInt(4, dto.getNo());
+			pstmt.setString(3, dto.getGender());
+			pstmt.setString(4, dto.getMarry());
+			pstmt.setString(5, dto.getEnroll());
+			pstmt.setInt(6, dto.getNo()); // 추가
 			
 			int result = pstmt.executeUpdate();
 			

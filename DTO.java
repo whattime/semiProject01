@@ -4,6 +4,8 @@ class DTO {
 	int no = 0;
 	String name = null;
 	String birth = null;
+	String gender = null; // 추가
+	String marry = null; // 추가
 	String enroll = null;
 	public int getNo() {
 		return no;
@@ -23,10 +25,23 @@ class DTO {
 	public void setBirth(String birth) {
 		this.birth = birth;
 	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getMarry() {
+		return marry;
+	}
+	public void setMarry(String marry) {
+		this.marry = marry;
+	}
 	public String getEnroll() {
 		return enroll;
 	}
 	public void setEnroll(String enroll) {
 		this.enroll = enroll;
 	}
+
 }
