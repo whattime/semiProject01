@@ -18,7 +18,8 @@ import javax.swing.table.DefaultTableModel;
 class JInsert extends JPanel implements ActionListener{
 	JTextField name;
 	JTextField birth;
-	
+	DAO dao = new DAO();
+	DTO dto = new DTO();
 	public JInsert() {
 		JLabel label1 = new JLabel("이름");
 		JLabel label2 = new JLabel("생년월일");
@@ -32,16 +33,19 @@ class JInsert extends JPanel implements ActionListener{
 		jb.addActionListener(this);
 	}
 	public void actionPerformed(ActionEvent e) {
-		DAO dao = new DAO();
-		DTO dto = new DTO();
+		
 		dto.setName(name.getText());
 		dto.setBirth(birth.getText());
 		dao.insert(dto);
+		name.setText("");
+		birth.setText("");
 	}
 }
-class JSelect extends JFrame implements ActionListener{
+class JSelect extends JPanel implements ActionListener{
 	JTextField jtf;
 	DefaultTableModel dfm;
+	DAO dao;
+	DTO dto;
 	public JSelect() {
 		JLabel jl = new JLabel("회원번호 입력 : ");
 		jtf = new JTextField(4);
@@ -57,22 +61,20 @@ class JSelect extends JFrame implements ActionListener{
 		jb.addActionListener(this);
 	}
 	public void actionPerformed(ActionEvent e) {
-		DAO dao = new DAO();
-		DTO dto = new DTO();
+		dao = new DAO();
 		int no = Integer.parseInt(jtf.getText());
 					
 		dto = dao.select(no);
-		dfm.setRowCount(0);
-		dfm.setValueAt(dto.getName(), 0, 1);
-		dfm.setValueAt(dto.getBirth(), 0, 2);
-		dfm.setValueAt(dto.getEnroll(), 0, 3);
+		dfm.setRowCount(1);
+		dfm.setValueAt(dto.getName(), 0, 0);
+		dfm.setValueAt(dto.getBirth(), 0, 1);
+		dfm.setValueAt(dto.getEnroll(), 0, 2);
 		
 	}
 }
 
 
 class swing extends JFrame{
-	
 	public swing() {
 		JTabbedPane jtp = new JTabbedPane();
 		JInsert ji = new JInsert();
@@ -89,14 +91,6 @@ class swing extends JFrame{
 		setSize(600, 400);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-				
-	}
-	
-	public static void main(String[] args) {
-		new swing();
-		
-		
-	}
-}
+	}	
 
-	
+}

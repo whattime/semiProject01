@@ -6,3 +6,9 @@ create table member(
 					); 
 					
 create sequence member_seq start with 1 increment by 1;
+
+select * from member;
+
+insert into member(no,name, birth ) values(member_seq.nextVal, 'james', '840827');
+
+delete from member;

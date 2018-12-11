@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -21,22 +19,7 @@ class DAO {
 	    ds.setPassword("tiger");
 	      
 	    ds.setInitialSize(5);
-	}
-	public void createTable() {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		try {
-			con = ds.getConnection();
-			String sql = " ";
-;
-			pstmt = con.prepareStatement(sql);
-			int result = pstmt.executeUpdate();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-	}
+	}	
 	
 	public DTO select(int no){
 		DTO dto = new DTO();
@@ -50,12 +33,13 @@ class DAO {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, no);
 			rs = pstmt.executeQuery();
-										
-			dto.setNo(rs.getInt("no"));
-			dto.setName(rs.getString("name"));
-			dto.setBirth(rs.getString("birth"));
-			dto.setEnroll(rs.getString("enroll"));
-					
+				
+			while(rs.next()) {
+				dto.setNo(rs.getInt("no"));
+				dto.setName(rs.getString("name"));
+				dto.setBirth(rs.getString("birth"));
+				dto.setEnroll(rs.getString("enroll"));
+			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -74,7 +58,7 @@ class DAO {
 	
 	public void insert(DTO dto) {
 		Connection con = null;
-		String sql = "insert into member values(member_seq.nextVal, ?, ?)";
+		String sql = "insert into member(no,name, birth) values(member_seq.nextVal, ?, ?)";
 		PreparedStatement pstmt  = null;
 		
 		try {

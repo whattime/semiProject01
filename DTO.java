@@ -29,6 +29,4 @@ class DTO {
 	public void setEnroll(String enroll) {
 		this.enroll = enroll;
 	}
-	
-	
 }
