@@ -1,9 +1,11 @@
-package LicenseManagement;
+package LicenseManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -19,28 +21,28 @@ class DAO {
 	    ds.setPassword("tiger");
 	      
 	    ds.setInitialSize(5);
-	}
+	}	
 	
-	public DTO select(int no){
-		DTO dto = new DTO();
+	public List<DTO> select(){
+		List<DTO> list = new ArrayList<DTO>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
 			con = ds.getConnection();
-			String sql = "select * from member where no = ?";
+			String sql = "select * from member";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, no);
 			rs = pstmt.executeQuery();
 				
 			while(rs.next()) {
+				DTO dto = new DTO();
 				dto.setNo(rs.getInt("no"));
 				dto.setName(rs.getString("name"));
 				dto.setBirth(rs.getString("birth"));
-				dto.setGender(rs.getString("gender")); // 추가
-				dto.setMarry(rs.getString("marry")); // 추가
 				dto.setEnroll(rs.getString("enroll"));
+				dto.setGender(rs.getString("gender"));
+				list.add(dto);
 			}
 			
 		} catch (SQLException e) {
@@ -55,23 +57,26 @@ class DAO {
 			}
 		}
 		
-		return dto;
+		return list;
 	}
 	
 	public void insert(DTO dto) {
 		Connection con = null;
-		String sql = "insert into member(no, name, birth, gender, marry) values(member_seq.nextVal, ?, ?, ?, ?)"; //
+		String sql = "insert into member(no,name,birth,gender) values(member_seq.nextVal, ?, ?, ?)";
 		PreparedStatement pstmt  = null;
+			
 		
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(sql);
 			
+//			FileInputStream fis= new FileInputStream(dto.getPhoto());
+			
 			pstmt.setString(1, dto.getName());
 			pstmt.setString(2, dto.getBirth());
-			pstmt.setString(3, dto.getGender()); // 추가
-			pstmt.setString(4, dto.getMarry()); // 추가
-			
+//			pstmt.setBinaryStream(3,fis,fis.available());
+			pstmt.setString(3, dto.getGender());
+//			pstmt.setString(5, dto.getMarry());
 			
 			int result = pstmt.executeUpdate();
 			
@@ -81,7 +86,7 @@ class DAO {
 				System.out.println("데이터 저장 실패.");
 			}
 			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
@@ -96,7 +101,7 @@ class DAO {
 	public void update(DTO dto) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String sql = "update member set name=?, birth=?, gender=?, marry=?, enroll=? where no=?";
+		String sql = "update member set name=?, birth=?, enroll=?, gender=?, where no=?";
 		
 		try {
 			con = ds.getConnection();
@@ -104,10 +109,10 @@ class DAO {
 			
 			pstmt.setString(1, dto.getName());
 			pstmt.setString(2, dto.getBirth());
-			pstmt.setString(3, dto.getGender());
-			pstmt.setString(4, dto.getMarry());
-			pstmt.setString(5, dto.getEnroll());
-			pstmt.setInt(6, dto.getNo()); // 추가
+			pstmt.setString(3, dto.getEnroll());
+			pstmt.setString(4, dto.getGender());
+//			pstmt.setString(5, dto.getMarry());
+			pstmt.setInt(5, dto.getNo());
 			
 			int result = pstmt.executeUpdate();
 			

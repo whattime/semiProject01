@@ -1,12 +1,13 @@
-package LicenseManagement;
+package LicenseManager;
 
 class DTO {
 	int no = 0;
 	String name = null;
 	String birth = null;
-	String gender = null; // 수정 필요..?
-	String marry = null; // 수정 필요..?
 	String enroll = null;
+	String photo =null;
+	String gender = null;
+//	String marry = null; 
 	public int getNo() {
 		return no;
 	}
@@ -25,24 +26,30 @@ class DTO {
 	public void setBirth(String birth) {
 		this.birth = birth;
 	}
-	public String getGender() {
-		return gender;
-	}
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-	public String getMarry() {
-		return marry;
-	}
-	public void setMarry(String marry) {
-		this.marry = marry;
-	}
 	public String getEnroll() {
 		return enroll;
 	}
 	public void setEnroll(String enroll) {
 		this.enroll = enroll;
 	}
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	/*public String getMarry() {
+		return marry;
+	}
+	public void setMarry(String marry) {
+		this.marry = marry;
+	}*/
 	
-
+	
 }
